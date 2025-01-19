@@ -9,6 +9,7 @@ mod tests {
         let numbers = (1, 2, 3);
 
         // TODO: Use a tuple index to access the second element of `numbers`
+        let second = numbers.1;
         // and assign it to a variable called `second`.
         // let second = ???;
 

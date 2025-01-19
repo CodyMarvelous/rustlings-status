@@ -3,13 +3,7 @@ struct Point {
     y: u64,
 }
 
-enum Message {
-    Resize { width: u64, height: u64 },
-    Move(Point),
-    Echo(String),
-    ChangeColor(u8, u8, u8),
-    Quit,
-}
+
 
 struct State {
     width: u64,
@@ -20,32 +14,53 @@ struct State {
     color: (u8, u8, u8),
     quit: bool,
 }
-
+enum Message {
+    Resize { width: u64, height: u64 },
+    Move(Point),
+    Echo(String),
+    ChangeColor(u8, u8, u8),
+    Quit,
+}
 impl State {
     fn resize(&mut self, width: u64, height: u64) {
         self.width = width;
         self.height = height;
     }
 
-    fn move_position(&mut self, point: Point) {
-        self.position = point;
+    fn move_position(&mut self, point: Point) {        self.position = point;
     }
 
-    fn echo(&mut self, s: String) {
-        self.message = s;
+    fn echo(&mut self, s: String) {        self.message = s;
     }
 
-    fn change_color(&mut self, red: u8, green: u8, blue: u8) {
-        self.color = (red, green, blue);
+    fn change_color(&mut self, red: u8, green: u8, blue: u8) { self.color = (red, green, blue);
     }
 
-    fn quit(&mut self) {
-        self.quit = true;
-    }
+    fn quit(&mut self) {self.quit = true;}
 
     fn process(&mut self, message: Message) {
         // TODO: Create a match expression to process the different message
         // variants using the methods defined above.
+        match message{
+            Message::Move(Point{x,y}) => {
+                println!("fuck all{}{}", x,y);
+                self.move_position(Point{x,y})
+            }
+            Message::Resize { width, height } =>{
+                println!("fuck all{}{}", width,height);
+                self.resize(width, height);
+            }
+            Message::ChangeColor(r, g, b) => {
+                self.change_color(r, g, b);
+            }
+            Message::Echo(s) =>{
+                self.echo(s);
+            }
+            Message::Quit => {
+                self.quit();
+            }
+
+        }
     }
 }
 
