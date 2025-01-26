@@ -10,20 +10,30 @@
 // the next item. The last item is a value called `Nil`.
 
 // TODO: Use a `Box` in the enum definition to make the code compile.
+use std::boxed::Box;
+
 #[derive(PartialEq, Debug)]
 enum List {
-    Cons(i32, List),
+    Cons(i32, Box<List>),
     Nil,
 }
 
 // TODO: Create an empty cons list.
 fn create_empty_list() -> List {
-    todo!()
+    // let list  = List::Nil;
+    // list
+    List::Nil
 }
 
 // TODO: Create a non-empty cons list.
 fn create_non_empty_list() -> List {
-    todo!()
+    // let list = List::Cons(0, Box::new(List::Nil));
+    // list
+    List::Cons(0, Box::new(List::Nil))
+}
+
+fn create_2_step_list() -> List {
+    List::Cons(0, Box::new(List::Cons(0, Box::new(List::Nil))))
 }
 
 fn main() {
@@ -32,6 +42,11 @@ fn main() {
         "This is a non-empty cons list: {:?}",
         create_non_empty_list(),
     );
+    println!(
+        "This is a 2 step non-empty cons list: {:?}",
+        create_2_step_list(),
+    );
+    
 }
 
 #[cfg(test)]
@@ -46,5 +61,9 @@ mod tests {
     #[test]
     fn test_create_non_empty_list() {
         assert_ne!(create_empty_list(), create_non_empty_list());
+    }
+    #[test]
+    fn test_create_2_step_non_empty_list() {
+        assert_ne!(create_non_empty_list(), create_2_step_list());
     }
 }
