@@ -33,8 +33,59 @@ impl Default for Person {
 // 4. If the name is empty, return the default of `Person`.
 // 5. Parse the second element from the split operation into a `u8` as the age.
 // 6. If parsing the age fails, return the default of `Person`.
+
+// My Solution
+// impl From<&str> for Person {
+//     //expecting input in shape "name,age"
+//     fn from(s: &str) -> Self {
+//         let split_data: Vec<&str> = s.split(",").collect();
+//         println!("{split_data:?}");
+//         if split_data.len() != 2 {
+//             return Person::default();
+//         }
+
+//         if split_data[0] == ""{
+//             return Person::default();
+//         }
+
+//         let l_age = split_data[1].parse::<u8>();
+//         match l_age {
+//             Ok(age) => {
+//                 return Person {name: String::from(split_data[0]), age: age};
+//             }
+//             Err(e) => {
+//                  return Person::default();
+//             }
+//         }
+
+//     }
+// }
+
+//My solution optimised with clippy
 impl From<&str> for Person {
-    fn from(s: &str) -> Self {}
+    //expecting input in shape "name,age"
+    fn from(s: &str) -> Self {
+        let split_data: Vec<&str> = s.split(",").collect();
+        // println!("{split_data:?}");
+        if split_data.len() != 2 {
+            return Person::default();
+        }
+
+        if split_data[0].is_empty() {
+            return Person::default();
+        }
+
+        let l_age = split_data[1].parse::<u8>();
+        match l_age {
+            Ok(input_age) => {
+                Person {name: String::from(split_data[0]), age: input_age}
+            }
+            Err(_e) => {
+                Person::default()
+            }
+        }
+
+    }
 }
 
 fn main() {
